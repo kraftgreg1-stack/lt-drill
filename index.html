@@ -69,7 +69,8 @@ h1{font-size:1.15rem;margin:0}
   <button data-go="back" type="button">← Back</button>
   <button data-go="home" class="on">Home</button>
   <button data-go="topics">Topics</button>
-  <button data-go="drive">Drive</button>
+  <button type="button" data-go="drive-soon" style="opacity:.45">Drive
+soon</button>
   <button data-go="board">Board</button>
 </nav>
 <script>
@@ -397,7 +398,7 @@ function quizView(drive){
   return `<div class="top">${backBtn()}<div><h1>${drive?'Drive ':'Q '}${state.i+1}/${state.deck.length}</h1><div class="sub">${topicName(item.topic)}</div></div>
     <div class="pill ${state.listening?'live':''}" id="timer">${drive?(state.listening?'Listening':state.left+'s'):(state.score+' correct')}</div></div>
     <div class="qbox">${item.q}</div>
-    ${state.answered?`<div class="ref"><b>Reference:</b> ${item.src||item.ex||''}${item.url?` · <a class="srclink" href="${item.url}" target="_blank" rel="noopener">Open source</a>`:''}</div>`:`<div class="small">Reference hidden until you answer. After you pick, the citation becomes a link.</div>`}
+    ${state.answered?`<div class="ref"><b>Reference</b><div style="margin-top:6px">${item.src||item.ex||'2026 Lieutenant bibliography (Personnel). Confirm in your current Manual / FOG copy.'}</div>${item.ex&&item.src&&item.ex!==item.src?`<div class="small" style="margin-top:8px">${item.ex}</div>`:''}${item.url?`<div class="small" style="margin-top:8px"><a class="srclink" href="${item.url}" target="_blank" rel="noopener">Open public source</a></div>`:`<div class="small" style="margin-top:8px">No public link — use your Department copy.</div>`}</div>`:`<div class="small">Answer first. The reference shows after you pick.</div>`}
     ${letters}
     ${drive&&!state.answered?`<div class="row"><button class="btn" onclick="driveAsk()">Repeat / listen</button><button class="btn sec" onclick="listenOnce()">Tap to speak</button></div>`:''}
     ${state.answered?`<div class="explain">${item.ex||''}${item.src?'<div class="small">'+item.src+'</div>':''}${item.url?'<div class="small"><a class="srclink" href="'+item.url+'" target="_blank" rel="noopener">Open source material</a></div>':''}<div class="small" style="margin-top:8px">How well did that stick? Again = see it in a few questions. Good = 3+ days.</div>
@@ -432,7 +433,7 @@ function render(){
 document.querySelector(".nav").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.dataset.go==="back"){ goBack(); return; }
-  if(b.dataset.go==="drive") startDrive(20);
+  if(b.dataset.go==="drive"||b.dataset.go==="drive-soon"){ alert("Drive is coming soon."); return; }
   else if(b.dataset.go==="topics") go("topics");
   else if(b.dataset.go==="board") go("board");
   else go("home");
