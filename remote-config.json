@@ -1,0 +1,6 @@
+{
+  "lt": "free",
+  "sgt": "paid",
+  "det": "paid",
+  "note": "free = open. paid = App Store $49.99. Change lt to paid when that test is over. No app update required."
+}
