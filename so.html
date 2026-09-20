@@ -1,1 +1,37 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Special Order</title>
+<style>
+body{margin:0;background:#070b14;color:#e8edf5;font:16px/1.45 -apple-system,system-ui,sans-serif}
+main{max-width:40rem;margin:0 auto;padding:1.25rem}
+.kicker{color:#e8c547;font-size:12px;letter-spacing:.12em;font-weight:700}
+h1{font-size:1.35rem;margin:.4rem 0 1rem}
+.box{background:#101826;border:1px solid #243044;border-radius:12px;padding:1rem;margin:1rem 0}
+li{margin:.45rem 0} a{color:#e8c547}
+.note{color:#9aa7b8;font-size:13px}.err{color:#f0a8a8}
+</style></head>
+<body><main id="root"><p>Loading…</p></main>
+<script>
+(async function () {
+  const id = new URLSearchParams(location.search).get('id') || '';
+  const el = document.getElementById('root');
+  let DATA = {};
+  try {
+    const r = await fetch('so-catalog.json', {cache: 'no-store'});
+    DATA = await r.json();
+  } catch (e) {
+    el.innerHTML = '<p class="err">Could not load the Special Order catalog.</p>';
+    return;
+  }
+  const d = DATA[id];
+  if (!d) {
+    el.innerHTML = '<p class="err">This link is missing a Special Order id, so nothing is listed on purpose.</p>';
+    return;
+  }
+  document.title = d.title;
+  const lis = (d.duties || []).map(x => '<li>' + x + '</li>').join('');
+  const pdf = d.pdf ? '<p><a href="' + d.pdf + '">Official PDF of this Special Order only</a></p>' : '';
+  el.innerHTML = '<div class="kicker">THE WATCH \u00b7 ONE SPECIAL ORDER</div><h1>' + d.title + '</h1><div class="box"><strong>' + d.subject + '</strong><p>Manual reference: ' + d.manual + '</p></div><ul>' + lis + '</ul>' + pdf + '<p class="note">This screen is only this Special Order. It does not list any other Order. Q1 2026 Department Manual controls if the Order and Manual conflict.</p>';
+})();
+</script></body></html>
